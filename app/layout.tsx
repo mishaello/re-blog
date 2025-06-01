@@ -10,8 +10,8 @@ import Footer from "@/components/footer"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Місцеві Новини | Web3 News Portal",
-  description: "Сучасний портал місцевих новин з Web3 дизайном",
+  title: "re-blog | Місцеві Новини",
+  description: "Сучасний портал місцевих новин з Blade Runner дизайном",
 }
 
 export default function RootLayout({
