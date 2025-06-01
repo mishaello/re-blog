@@ -1,0 +1,185 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 84% 4.9%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 94.0%;
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+    min-height: 100vh;
+  }
+}
+
+@layer components {
+  .glass {
+    @apply backdrop-blur-xl bg-white/5 border border-white/10;
+  }
+
+  .glass-card {
+    @apply backdrop-blur-xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20;
+  }
+
+  .neon-text {
+    @apply bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent;
+  }
+
+  .neon-border {
+    @apply border border-transparent bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-pink-500/20 bg-clip-border;
+  }
+
+  .web3-button {
+    @apply relative overflow-hidden bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105;
+  }
+
+  .web3-button::before {
+    content: "";
+    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] transition-transform duration-700;
+  }
+
+  .web3-button:hover::before {
+    @apply translate-x-[100%];
+  }
+
+  /* Неоновий текст з переливанням */
+  .blade-runner-text {
+    background: linear-gradient(45deg, #ff0080, #ff8c00, #40e0d0, #ee82ee, #00ff41, #ff1493, #00bfff, #ff6347);
+    background-size: 400% 400%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: neon-flow 3s ease-in-out infinite;
+    text-shadow: 0 0 5px rgba(255, 0, 128, 0.5), 0 0 10px rgba(255, 140, 0, 0.3), 0 0 15px rgba(64, 224, 208, 0.3), 0 0
+    20px rgba(238, 130, 238, 0.2);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+  }
+
+  /* Альтернативний варіант з більш яскравим ефектом */
+  .cyberpunk-text {
+    background: linear-gradient(
+            90deg,
+            #ff0080 0%,
+            #ff8c00 14%,
+            #40e0d0 28%,
+            #ee82ee 42%,
+            #00ff41 57%,
+            #ff1493 71%,
+            #00bfff 85%,
+            #ff0080 100%
+    );
+    background-size: 200% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: cyberpunk-glow 2s linear infinite;
+    filter: drop-shadow(0 0 10px rgba(255, 0, 128, 0.7));
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+
+  /* Варіант з пульсацією */
+  .neon-pulse-text {
+    color: #00ffff;
+    text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff, 0 0 15px #00ffff, 0 0 20px #ff00ff, 0 0 35px #ff00ff, 0 0 40px
+    #ff00ff;
+    animation: neon-pulse 1.5s ease-in-out infinite alternate;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+  }
+  to {
+    box-shadow: 0 0 30px rgba(139, 92, 246, 0.6);
+  }
+}
+
+/* Анімації для неонового тексту */
+@keyframes neon-flow {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes cyberpunk-glow {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 200% 0%;
+  }
+}
+
+@keyframes neon-pulse {
+  from {
+    text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff, 0 0 15px #00ffff, 0 0 20px #ff00ff, 0 0 35px #ff00ff, 0 0 40px
+    #ff00ff;
+  }
+  to {
+    text-shadow: 0 0 2px #00ffff, 0 0 5px #00ffff, 0 0 8px #00ffff, 0 0 12px #ff00ff, 0 0 18px #ff00ff, 0 0 25px #ff00ff;
+  }
+}
+
+/* Спеціальні стилі для HoverCard */
+[data-radix-popper-content-wrapper] {
+  z-index: 9999 !important;
+}
+
+.hover-card-content {
+  z-index: 9999 !important;
+  position: relative;
+}
