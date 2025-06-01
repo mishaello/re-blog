@@ -102,9 +102,9 @@ export default function PostDetail({ post }: { post: Post }) {
       <article className="space-y-8 relative">
         {/* Header */}
         <div className="glass-card rounded-2xl p-8 space-y-6 relative z-10">
-          <div className="flex items-start justify-between">
+          <div className="flex flex-col space-y-4">
             <div className="flex-1">
-              <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight mb-4">{post.title}</h1>
+              <h1 className="text-3xl md:text-5xl font-bold text-white leading-tight mb-4">{post.title}</h1>
 
               {/* Категорія під заголовком */}
               {post.category && (
@@ -117,7 +117,7 @@ export default function PostDetail({ post }: { post: Post }) {
                   </Badge>
               )}
 
-              <div className="flex flex-wrap items-center gap-4 text-gray-300 relative z-50">
+              <div className="flex flex-wrap items-center justify-between gap-4 text-gray-300 relative z-50">
                 <AuthorHoverCard author={post.profiles}>
                   <div className="flex items-center gap-3 cursor-pointer">
                     <Avatar className="h-12 w-12 ring-2 ring-cyan-400/50">
@@ -140,24 +140,24 @@ export default function PostDetail({ post }: { post: Post }) {
                     </div>
                   </div>
                 </AuthorHoverCard>
+
+                {/* Кнопки редагування для власника */}
+                {isOwner && (
+                    <div className="flex gap-2 mt-2 sm:mt-0">
+                      <Link href={`/edit/${post.id}`}>
+                        <Button size="sm" className="web3-button sm:px-4">
+                          <Edit className="h-4 w-4 sm:mr-2" />
+                          <span className="hidden sm:inline">Редагувати</span>
+                        </Button>
+                      </Link>
+                      <Button size="sm" variant="destructive" onClick={handleDelete} disabled={isDeleting}>
+                        <Trash2 className="h-4 w-4 sm:mr-2" />
+                        <span className="hidden sm:inline">{isDeleting ? "Видалення..." : "Видалити"}</span>
+                      </Button>
+                    </div>
+                )}
               </div>
             </div>
-
-            {/* Кнопки редагування для власника */}
-            {isOwner && (
-                <div className="flex gap-2">
-                  <Link href={`/edit/${post.id}`}>
-                    <Button className="web3-button">
-                      <Edit className="h-4 w-4 mr-2" />
-                      Редагувати
-                    </Button>
-                  </Link>
-                  <Button variant="destructive" onClick={handleDelete} disabled={isDeleting}>
-                    <Trash2 className="h-4 w-4 mr-2" />
-                    {isDeleting ? "Видалення..." : "Видалити"}
-                  </Button>
-                </div>
-            )}
           </div>
         </div>
 
