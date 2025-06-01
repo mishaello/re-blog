@@ -326,18 +326,20 @@ export default function EditPostPage({ params }: { params: Promise<{ id: string 
                         accept="image/*"
                         onChange={handleImageUpload}
                         disabled={uploadingImage}
-                        className="glass border-white/20 text-white file:bg-cyan-600 file:text-white file:border-0 file:rounded-md"
+                        className="glass border-white/20 text-white file:bg-cyan-600 file:text-white file:border-0 file:rounded-md flex-1"
                     />
-                    <Button type="button" disabled={uploadingImage} className="web3-button">
+                    <Button type="button" disabled={uploadingImage} className="web3-button shrink-0">
                       {uploadingImage ? (
                           <>
-                            <Upload className="h-4 w-4 mr-2 animate-spin" />
-                            Завантаження...
+                            <Upload className="h-4 w-4 mr-2" />
+                            <span className="hidden sm:inline">Завантаження...</span>
+                            <span className="sm:hidden">...</span>
                           </>
                       ) : (
                           <>
                             <ImageIcon className="h-4 w-4 mr-2" />
-                            Обрати фото
+                            <span className="hidden sm:inline">Завантажити</span>
+                            <span className="sm:hidden">Фото</span>
                           </>
                       )}
                     </Button>
