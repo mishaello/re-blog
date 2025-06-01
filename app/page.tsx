@@ -1,6 +1,6 @@
 import PostList from "@/components/post-list"
 import CategoryFilter from "@/components/category-filter"
-import { createServerClient } from "@/lib/supabase/server"
+import { createReadOnlyServerClient } from "@/lib/supabase/server"
 import { Sparkles, TrendingUp, Users } from "lucide-react"
 
 interface PageProps {
@@ -12,7 +12,7 @@ export default async function Home({ searchParams }: PageProps) {
     const resolvedSearchParams = await searchParams
     const selectedCategory = resolvedSearchParams.category
 
-    const supabase = await createServerClient()
+    const supabase = await createReadOnlyServerClient()
 
     // Отримуємо пости з фільтром по категорії
     let query = supabase.from("posts").select("*, category").order("created_at", { ascending: false }).limit(10)
