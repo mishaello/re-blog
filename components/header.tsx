@@ -58,7 +58,6 @@ export default function Header() {
 
   const isAnonymous = !user?.email && !user?.user_metadata?.provider
   const canCreatePost = !!user && !isAnonymous
-  console.log(canCreatePost)
 
   return (
       <header className="glass border-b border-white/10 sticky top-0 z-50">
@@ -87,7 +86,6 @@ export default function Header() {
               Головна
             </Link>
 
-            {canCreatePost && (
                 <>
                   <Link
                       href="/create"
@@ -98,7 +96,7 @@ export default function Header() {
                     <Plus className="h-4 w-4" />
                     Створити
                   </Link>
-
+                  {canCreatePost && (
                   <Link
                       href="/profile"
                       className={`flex items-center gap-2 text-sm font-medium transition-colors hover:text-pink-400 ${
@@ -108,8 +106,8 @@ export default function Header() {
                     <UserProfile className="h-4 w-4" />
                     Профіль
                   </Link>
+                  )}
                 </>
-            )}
 
             {loading ? (
                 <Button variant="ghost" size="sm" disabled className="glass">
@@ -237,7 +235,6 @@ export default function Header() {
                           Головна
                         </Link>
                       </li>
-                      {canCreatePost && (
                           <>
                             <li>
                               <Link
@@ -251,6 +248,7 @@ export default function Header() {
                                 Створити
                               </Link>
                             </li>
+                            {canCreatePost && (
                             <li>
                               <Link
                                   href="/profile"
@@ -263,8 +261,8 @@ export default function Header() {
                                 Профіль
                               </Link>
                             </li>
+                            )}
                           </>
-                      )}
                     </ul>
                   </nav>
 
