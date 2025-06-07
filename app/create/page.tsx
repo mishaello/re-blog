@@ -74,8 +74,8 @@ export default function CreatePostPage() {
     })
   }
 
-  const isAnonymous = user?.app_metadata?.provider_type?.toLowerCase?.() === "anonymous"
-  const canCreatePost = user && !isAnonymous
+  const isAnonymous = !user?.email && !user?.user_metadata?.provider
+  const canCreatePost = !!user && !isAnonymous
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]

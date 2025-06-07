@@ -56,8 +56,9 @@ export default function Header() {
     setIsOpen(false)
   }
 
-  const isAnonymous = user?.app_metadata?.provider_type?.toLowerCase?.() === "anonymous"
-  const canCreatePost = user && !isAnonymous
+  const isAnonymous = !user?.email && !user?.user_metadata?.provider
+  const canCreatePost = !!user && !isAnonymous
+  console.log(canCreatePost)
 
   return (
       <header className="glass border-b border-white/10 sticky top-0 z-50">
