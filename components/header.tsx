@@ -200,7 +200,7 @@ export default function Header() {
                                   (user.app_metadata?.provider === "anonymous" ? "Анонім" : "Користувач")}
                             </div>
                             <div className="text-sm text-gray-400">
-                              {user.app_metadata?.provider === "anonymous" ? "Анонімний вхід" : "Google аккаунт"}
+                              {isAnonymous ? "Анонімний вхід" : "Google аккаунт"}
                             </div>
                           </div>
                         </div>
