@@ -56,7 +56,7 @@ export default function Header() {
     setIsOpen(false)
   }
 
-  const isAnonymous = user?.app_metadata?.provider?.toLowerCase?.() === "anonymous"
+  const isAnonymous = user?.app_metadata?.provider_type?.toLowerCase?.() === "anonymous"
   const canCreatePost = user && !isAnonymous
 
   return (
