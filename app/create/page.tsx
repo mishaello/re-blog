@@ -167,15 +167,25 @@ export default function CreatePostPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    if (!canCreatePost) {
+      toast({
+        title: "Помилка",
+        description: "Тільки авторизовані користувачі можуть створювати публікації",
+        variant: "destructive",
+      })
+      return
+    }
+
     setIsLoading(true)
 
     try {
       const { data: session } = await supabase.auth.getSession()
 
-      if (!session.session) {
+      if (!session.session || session.session.user.app_metadata?.provider === "anonymous") {
         toast({
           title: "Помилка",
-          description: "Ви повинні увійти, щоб створити публікацію",
+          description: "Необхідно увійти через Google для створення публікації",
           variant: "destructive",
         })
         return
@@ -210,6 +220,70 @@ export default function CreatePostPage() {
     } finally {
       setIsLoading(false)
     }
+  }
+
+  if (loading) {
+    return (
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-400 mx-auto"></div>
+            <p className="text-gray-400 mt-4">Завантаження...</p>
+          </div>
+        </div>
+    )
+  }
+
+  if (!user) {
+    return (
+        <div className="max-w-3xl mx-auto">
+          <Card className="glass-card border-white/20">
+            <CardHeader className="text-center">
+              <div className="flex items-center justify-center gap-3 mb-4">
+                <Lock className="h-8 w-8 text-red-400" />
+                <CardTitle className="text-2xl text-white">Необхідна авторизація</CardTitle>
+              </div>
+              <CardDescription className="text-gray-400">
+                Для створення публікацій необхідно увійти в систему
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="text-center">
+              <p className="text-gray-300 mb-6">Увійдіть через Google, щоб почати створювати контент</p>
+              <Button onClick={handleSignIn} className="web3-button">
+                <UserIcon className="mr-2 h-4 w-4" />
+                Увійти через Google
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+    )
+  }
+
+  if (isAnonymous) {
+    return (
+        <div className="max-w-3xl mx-auto">
+          <Card className="glass-card border-white/20">
+            <CardHeader className="text-center">
+              <div className="flex items-center justify-center gap-3 mb-4">
+                <Lock className="h-8 w-8 text-yellow-400" />
+                <CardTitle className="text-2xl text-white">Обмежений доступ</CardTitle>
+              </div>
+              <CardDescription className="text-gray-400">
+                Анонімні користувачі не можуть створювати публікації
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="text-center">
+              <p className="text-gray-300 mb-6">
+                Для створення публікацій необхідно увійти через Google. Анонімний доступ дозволяє тільки переглядати та
+                коментувати контент.
+              </p>
+              <Button onClick={handleSignIn} className="web3-button">
+                <UserIcon className="mr-2 h-4 w-4" />
+                Увійти через Google
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+    )
   }
 
   return (
