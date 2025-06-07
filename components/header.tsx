@@ -48,7 +48,24 @@ export default function Header() {
   }
 
   const handleSignInAnonymously = async () => {
-    await supabase.auth.signInAnonymously()
+    const { data: { user }, error: signInError } = await supabase.auth.signInAnonymously()
+
+    if (signInError) {
+      console.error('Помилка анонімної авторизації:', signInError)
+      return
+    }
+
+    if (user) {
+      const { error: insertError } = await supabase.from('profiles').insert({
+        id: user.id,
+        name: 'Anonymous user',
+        is_anonymous: true
+      })
+
+      if (insertError) {
+        console.error('Помилка вставки профілю:', insertError)
+      }
+    }
   }
 
   const handleSignOut = async () => {
