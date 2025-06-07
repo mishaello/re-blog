@@ -56,6 +56,9 @@ export default function Header() {
     setIsOpen(false)
   }
 
+  const isAnonymous = user?.app_metadata?.provider === "anonymous"
+  const canCreatePost = user && !isAnonymous
+
   return (
       <header className="glass border-b border-white/10 sticky top-0 z-50">
         <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
@@ -83,7 +86,7 @@ export default function Header() {
               Головна
             </Link>
 
-            {user && (
+            {canCreatePost && (
                 <>
                   <Link
                       href="/create"
@@ -129,12 +132,14 @@ export default function Header() {
                           user.email ||
                           (user.app_metadata?.provider === "anonymous" ? "Анонім" : "Користувач")}
                     </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                      <Link href="/profile" className="cursor-pointer">
-                        <UserProfile className="mr-2 h-4 w-4" />
-                        Мій профіль
-                      </Link>
-                    </DropdownMenuItem>
+                    {canCreatePost && (
+                      <DropdownMenuItem asChild>
+                        <Link href="/profile" className="cursor-pointer">
+                          <UserProfile className="mr-2 h-4 w-4" />
+                          Мій профіль
+                        </Link>
+                      </DropdownMenuItem>
+                    )}
                     <DropdownMenuItem onClick={handleSignOut} className="text-red-400 hover:text-red-300">
                       Вийти
                     </DropdownMenuItem>
@@ -161,7 +166,7 @@ export default function Header() {
 
           {/* Мобільна навігація */}
           <div className="flex items-center gap-2 md:hidden">
-            {user && (
+            {canCreatePost && (
                 <Link
                     href="/create"
                     className={`flex items-center justify-center w-10 h-10 rounded-full glass hover:bg-white/10 ${
@@ -231,7 +236,7 @@ export default function Header() {
                           Головна
                         </Link>
                       </li>
-                      {user && (
+                      {canCreatePost && (
                           <>
                             <li>
                               <Link

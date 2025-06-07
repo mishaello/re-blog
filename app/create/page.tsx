@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -11,9 +11,10 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/components/ui/use-toast"
 import { createClientClient } from "@/lib/supabase/client"
-import { PenTool, Send, Upload, X, ImageIcon, Tag } from "lucide-react"
+import { PenTool, Send, Upload, X, ImageIcon, Tag, Lock, UserIcon } from "lucide-react"
 import Image from "next/image"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import type { User } from "@supabase/supabase-js"
 
 // Попередньо визначені категорії
 const CATEGORIES = [
@@ -30,6 +31,8 @@ const CATEGORIES = [
 ]
 
 export default function CreatePostPage() {
+  const [user, setUser] = useState<User | null>(null)
+  const [loading, setLoading] = useState(true)
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
   const [category, setCategory] = useState("")
@@ -42,9 +45,50 @@ export default function CreatePostPage() {
   const { toast } = useToast()
   const supabase = createClientClient()
 
+  useEffect(() => {
+    const getUser = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession()
+      setUser(session?.user || null)
+      setLoading(false)
+
+      const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+        setUser(session?.user || null)
+      })
+
+      return () => {
+        authListener.subscription.unsubscribe()
+      }
+    }
+
+    getUser()
+  }, [supabase])
+
+  const handleSignIn = async () => {
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    })
+  }
+
+  const isAnonymous = user?.app_metadata?.provider === "anonymous"
+  const canCreatePost = user && !isAnonymous
+
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
+
+    if (!canCreatePost) {
+      toast({
+        title: "Помилка",
+        description: "Тільки авторизовані користувачі можуть завантажувати зображення",
+        variant: "destructive",
+      })
+      return
+    }
 
     // Перевіряємо тип файлу
     if (!file.type.startsWith("image/")) {
