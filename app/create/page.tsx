@@ -286,143 +286,145 @@ export default function CreatePostPage() {
     )
   }
 
-  return (
-      <div className="max-w-3xl mx-auto">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold neon-text mb-4">Створити публікацію</h1>
-          <p className="text-gray-400">Поділіться новинами з вашою спільнотою</p>
-        </div>
+  else {
+    return (
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-8">
+            <h1 className="text-4xl font-bold neon-text mb-4">Створити публікацію</h1>
+            <p className="text-gray-400">Поділіться новинами з вашою спільнотою</p>
+          </div>
 
-        <Card className="glass-card border-white/20">
-          <CardHeader className="text-center">
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <PenTool className="h-8 w-8 text-cyan-400" />
-              <CardTitle className="text-2xl text-white">Нова публікація</CardTitle>
-            </div>
-            <CardDescription className="text-gray-400">Створіть цікавий контент для вашої аудиторії</CardDescription>
-          </CardHeader>
-          <form onSubmit={handleSubmit}>
-            <CardContent className="space-y-6">
-              <div className="space-y-2">
-                <Label htmlFor="title" className="text-white font-medium">
-                  Заголовок
-                </Label>
-                <Input
-                    id="title"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    required
-                    className="glass border-white/20 text-white placeholder:text-gray-400 focus:border-cyan-400"
-                    placeholder="Введіть заголовок новини..."
-                />
+          <Card className="glass-card border-white/20">
+            <CardHeader className="text-center">
+              <div className="flex items-center justify-center gap-3 mb-4">
+                <PenTool className="h-8 w-8 text-cyan-400"/>
+                <CardTitle className="text-2xl text-white">Нова публікація</CardTitle>
               </div>
+              <CardDescription className="text-gray-400">Створіть цікавий контент для вашої аудиторії</CardDescription>
+            </CardHeader>
+            <form onSubmit={handleSubmit}>
+              <CardContent className="space-y-6">
+                <div className="space-y-2">
+                  <Label htmlFor="title" className="text-white font-medium">
+                    Заголовок
+                  </Label>
+                  <Input
+                      id="title"
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
+                      required
+                      className="glass border-white/20 text-white placeholder:text-gray-400 focus:border-cyan-400"
+                      placeholder="Введіть заголовок новини..."
+                  />
+                </div>
 
-              {/* Категорія */}
-              <div className="space-y-2">
-                <Label htmlFor="category" className="text-white font-medium flex items-center gap-2">
-                  <Tag className="h-4 w-4 text-cyan-400" />
-                  Категорія
-                </Label>
-                <Select onValueChange={handleCategoryChange}>
-                  <SelectTrigger className="glass border-white/20 text-white">
-                    <SelectValue placeholder="Оберіть категорію" />
-                  </SelectTrigger>
-                  <SelectContent className="glass border-white/20">
-                    {CATEGORIES.map((cat) => (
-                        <SelectItem key={cat} value={cat}>
-                          {cat}
-                        </SelectItem>
-                    ))}
-                    <SelectItem value="custom">Інша категорія...</SelectItem>
-                  </SelectContent>
-                </Select>
+                {/* Категорія */}
+                <div className="space-y-2">
+                  <Label htmlFor="category" className="text-white font-medium flex items-center gap-2">
+                    <Tag className="h-4 w-4 text-cyan-400"/>
+                    Категорія
+                  </Label>
+                  <Select onValueChange={handleCategoryChange}>
+                    <SelectTrigger className="glass border-white/20 text-white">
+                      <SelectValue placeholder="Оберіть категорію"/>
+                    </SelectTrigger>
+                    <SelectContent className="glass border-white/20">
+                      {CATEGORIES.map((cat) => (
+                          <SelectItem key={cat} value={cat}>
+                            {cat}
+                          </SelectItem>
+                      ))}
+                      <SelectItem value="custom">Інша категорія...</SelectItem>
+                    </SelectContent>
+                  </Select>
 
-                {showCustomCategory && (
-                    <div className="mt-2">
-                      <Input
-                          value={customCategory}
-                          onChange={(e) => setCustomCategory(e.target.value)}
-                          className="glass border-white/20 text-white"
-                          placeholder="Введіть свою категорію"
-                      />
-                    </div>
-                )}
-              </div>
-
-              {/* Завантаження зображення */}
-              <div className="space-y-2">
-                <Label className="text-white font-medium">Зображення (опціонально)</Label>
-                <div className="space-y-4">
-                  {imageUrl && (
-                      <div className="relative">
-                        <Image
-                            src={imageUrl || "/placeholder.svg"}
-                            alt="Зображення публікації"
-                            width={400}
-                            height={200}
-                            className="rounded-lg object-cover w-full max-h-64"
+                  {showCustomCategory && (
+                      <div className="mt-2">
+                        <Input
+                            value={customCategory}
+                            onChange={(e) => setCustomCategory(e.target.value)}
+                            className="glass border-white/20 text-white"
+                            placeholder="Введіть свою категорію"
                         />
-                        <Button
-                            type="button"
-                            variant="destructive"
-                            size="sm"
-                            className="absolute top-2 right-2"
-                            onClick={removeImage}
-                        >
-                          <X className="h-4 w-4" />
-                        </Button>
                       </div>
                   )}
-                  <div className="flex items-center gap-4">
-                    <Input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleImageUpload}
-                        disabled={uploadingImage}
-                        className="glass border-white/20 text-white file:bg-cyan-600 file:text-white file:border-0 file:rounded-md flex-1"
-                    />
-                    <Button type="button" disabled={uploadingImage} className="web3-button shrink-0">
-                      {uploadingImage ? (
-                          <>
-                            <Upload className="h-4 w-4 mr-2" />
-                            <span className="hidden sm:inline">Завантаження...</span>
-                            <span className="sm:hidden">...</span>
-                          </>
-                      ) : (
-                          <>
-                            <ImageIcon className="h-4 w-4 mr-2" />
-                            <span className="hidden sm:inline">Завантажити</span>
-                            <span className="sm:hidden">Фото</span>
-                          </>
-                      )}
-                    </Button>
+                </div>
+
+                {/* Завантаження зображення */}
+                <div className="space-y-2">
+                  <Label className="text-white font-medium">Зображення (опціонально)</Label>
+                  <div className="space-y-4">
+                    {imageUrl && (
+                        <div className="relative">
+                          <Image
+                              src={imageUrl || "/placeholder.svg"}
+                              alt="Зображення публікації"
+                              width={400}
+                              height={200}
+                              className="rounded-lg object-cover w-full max-h-64"
+                          />
+                          <Button
+                              type="button"
+                              variant="destructive"
+                              size="sm"
+                              className="absolute top-2 right-2"
+                              onClick={removeImage}
+                          >
+                            <X className="h-4 w-4"/>
+                          </Button>
+                        </div>
+                    )}
+                    <div className="flex items-center gap-4">
+                      <Input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleImageUpload}
+                          disabled={uploadingImage}
+                          className="glass border-white/20 text-white file:bg-cyan-600 file:text-white file:border-0 file:rounded-md flex-1"
+                      />
+                      <Button type="button" disabled={uploadingImage} className="web3-button shrink-0">
+                        {uploadingImage ? (
+                            <>
+                              <Upload className="h-4 w-4 mr-2"/>
+                              <span className="hidden sm:inline">Завантаження...</span>
+                              <span className="sm:hidden">...</span>
+                            </>
+                        ) : (
+                            <>
+                              <ImageIcon className="h-4 w-4 mr-2"/>
+                              <span className="hidden sm:inline">Завантажити</span>
+                              <span className="sm:hidden">Фото</span>
+                            </>
+                        )}
+                      </Button>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="content" className="text-white font-medium">
-                  Зміст
-                </Label>
-                <Textarea
-                    id="content"
-                    value={content}
-                    onChange={(e) => setContent(e.target.value)}
-                    rows={12}
-                    required
-                    className="glass border-white/20 text-white placeholder:text-gray-400 focus:border-cyan-400 resize-none"
-                    placeholder="Розкажіть детальніше про новину..."
-                />
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button type="submit" disabled={isLoading} className="web3-button w-full">
-                <Send className="h-4 w-4 mr-2" />
-                {isLoading ? "Створення..." : "Опублікувати"}
-              </Button>
-            </CardFooter>
-          </form>
-        </Card>
-      </div>
-  )
+                <div className="space-y-2">
+                  <Label htmlFor="content" className="text-white font-medium">
+                    Зміст
+                  </Label>
+                  <Textarea
+                      id="content"
+                      value={content}
+                      onChange={(e) => setContent(e.target.value)}
+                      rows={12}
+                      required
+                      className="glass border-white/20 text-white placeholder:text-gray-400 focus:border-cyan-400 resize-none"
+                      placeholder="Розкажіть детальніше про новину..."
+                  />
+                </div>
+              </CardContent>
+              <CardFooter>
+                <Button type="submit" disabled={isLoading} className="web3-button w-full">
+                  <Send className="h-4 w-4 mr-2"/>
+                  {isLoading ? "Створення..." : "Опублікувати"}
+                </Button>
+              </CardFooter>
+            </form>
+          </Card>
+        </div>
+    )
+  }
 }
